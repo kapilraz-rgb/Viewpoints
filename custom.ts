@@ -10,7 +10,7 @@ namespace viewpoints {
     export let viewpointRegistry: ViewpointData[] = [];
     export let playerViewpointNames: string[] = ["", "", "", ""];
     export let playerWorldSprites: Sprite[] = [null, null, null, null];
-    export let playerAngles: number[] = [0, 0, 0, 0];
+    export let playerAngles: number[] =[]
 
     let moveSpeed = 2;
     let turnSpeed = 4;
@@ -52,13 +52,10 @@ namespace viewpoints {
                         worldSprite.y -= Math.sin(angleRad) * moveSpeed;
                     }
 
-                    // --- DIRECT CONNECT TO THE RAYCASTING EXTENSION ---
+                    // --- DIRECT CONNECT TO RENDER NAMESPACE ---
+                    // Called completely raw for MakeCode's static compiler
                     if (playerNum == 1) {
-                        // @ts-ignore
-                        if (typeof raycasting !== "undefined") {
-                            // @ts-ignore
-                            raycasting.setViewAngle(playerAngles[i]);
-                        }
+                        Render.setViewAngleInDegree(playerAngles[i]);
                     }
                 }
 
@@ -79,11 +76,7 @@ namespace viewpoints {
                             if (ctrl.right.isPressed()) playerAngles[i] = (playerAngles[i] + turnSpeed) % 360;
 
                             if (playerNum == 1) {
-                                // @ts-ignore
-                                if (typeof raycasting !== "undefined") {
-                                    // @ts-ignore
-                                    raycasting.setViewAngle(playerAngles[i]);
-                                }
+                                Render.setViewAngleInDegree(playerAngles[i]);
                             }
                         }
                     }
@@ -158,9 +151,3 @@ namespace viewpoints {
         }
     }
 }
-
-
-
-
-
-
