@@ -6,7 +6,7 @@ namespace viewpoints {
         location: tiles.Location;
     }
 
-    // Explicitly typed storage arrays
+    // Explicitly typed storage arrays with four predefined slots
     export let viewpointRegistry: ViewpointData[] = [];
     export let playerViewpointNames: string[] = ["", "", "", ""];
     export let playerWorldSprites: Sprite[] = [null, null, null, null];
@@ -54,8 +54,11 @@ namespace viewpoints {
 
                     // --- DIRECT CONNECT TO THE RAYCASTING EXTENSION ---
                     if (playerNum == 1) {
-                        Render.setViewAngleInDegree(playerAngles[i]);
-                 
+                        // @ts-ignore
+                        if (typeof raycasting !== "undefined") {
+                            // @ts-ignore
+                            raycasting.setViewAngle(playerAngles[i]);
+                        }
                     }
                 }
 
@@ -76,7 +79,11 @@ namespace viewpoints {
                             if (ctrl.right.isPressed()) playerAngles[i] = (playerAngles[i] + turnSpeed) % 360;
 
                             if (playerNum == 1) {
-                                Render.setViewAngleInDegree(playerAngles[i]);
+                                // @ts-ignore
+                                if (typeof raycasting !== "undefined") {
+                                    // @ts-ignore
+                                    raycasting.setViewAngle(playerAngles[i]);
+                                }
                             }
                         }
                     }
@@ -151,3 +158,9 @@ namespace viewpoints {
         }
     }
 }
+
+
+
+
+
+
